@@ -1,7 +1,26 @@
 import { Button, Label, TextInput } from 'flowbite-react'
-import React from 'react'
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom' 
+
 export default function signup() {
+  const [formData, setFormData] = useState({});
+  
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className='min-h-screen mt-20'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
@@ -15,18 +34,18 @@ export default function signup() {
         </div>
         {/* right */}
         <div className='flex-1'>
-          <form>
+          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div className=''>
               <Label value='Your Username'/>
-              <TextInput  type='text' placeholder='username' id='username'/>
+              <TextInput  type='text' placeholder='username' id='username'onChange={handleChange}/>
             </div>
             <div className=''>
               <Label value='Your Email'/>
-              <TextInput  type='text' placeholder='Email' id='email'/>
+              <TextInput  type='email' placeholder='Email' id='email'onChange={handleChange}/>
             </div>
             <div className=''>
               <Label value='Your Password'/>
-              <TextInput  type='text' placeholder='password' id='password'/>
+              <TextInput  type='password' placeholder='password' id='password'onChange={handleChange}/>
             </div>
             <Button gradientDuoTone='purpleToPink' type='submit'>
               SignUp
