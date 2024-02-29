@@ -41,10 +41,8 @@ export default function DashProfile() {
       uploadImage();
     }
   }, [imageFile]);
-
   const uploadImage = async () => {
-
-    // service firebase.storage {
+     // service firebase.storage {
     //     match /b/{bucket}/o {
     //       match /{allPaths=**} {
     //           allow read;
